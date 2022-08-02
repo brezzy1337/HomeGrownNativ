@@ -5,7 +5,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {StackParam} from '../App';
 import AddUser from '../Components/SignUp/AddUser';
 
-const SignUpScreen = () => {
+const SignUpScreen: React.FC = () => {
 
   const navigation = useNavigation<NativeStackNavigationProp<StackParam>>();
 

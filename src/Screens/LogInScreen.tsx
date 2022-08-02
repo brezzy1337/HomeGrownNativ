@@ -10,7 +10,7 @@ import { Divider, TextInput, Button, Text } from 'react-native-paper';
 
 
 
-const LogInScreen = () => {
+const LogInScreen: React.FC = () => {
 
   const navigation = useNavigation<NativeStackNavigationProp<StackParam>>();
 

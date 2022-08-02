@@ -9,7 +9,7 @@ import {View} from 'react-native';
 import {Button, Text, TextInput} from 'react-native-paper';
 
 
-const AddLocation = () => {
+const AddLocation: React.FC = () => {
     
     const navigation = useNavigation<NativeStackNavigationProp<StackParam>>();
     

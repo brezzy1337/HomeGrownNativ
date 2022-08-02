@@ -11,7 +11,7 @@ import Logo from '../Assets/logo.svg';
    name: string;
  };
 
-const HeroScreen : React.FC<Props> = () => {
+const HeroScreen: React.FC<Props> = () => {
 
   const navigation = useNavigation<NativeStackNavigationProp<StackParam>>();
 

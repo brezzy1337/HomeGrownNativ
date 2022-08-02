@@ -6,7 +6,7 @@ import { GrPaypal } from 'react-icons/gr';
 import { AiOutlineDollar } from 'react-icons/ai';
 import { SiBitcoin } from 'react-icons/si';
 
-const AddPayment = () => {
+const AddPayment: React.FC = () => {
 
     const [paymentType, setPaymentType] = useState<string>('');
     const [openCardForm, setOpenCardForm] = useState<boolean>(false);   

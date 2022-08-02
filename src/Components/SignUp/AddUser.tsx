@@ -8,7 +8,7 @@ import {useFormik} from 'formik';
 import {View} from 'react-native';
 import {Button, Text, TextInput} from 'react-native-paper';
 
-const AddUser = () => {
+const AddUser: React.FC = () => {
   
   const navigation = useNavigation<NativeStackNavigationProp<StackParam>>();
 
