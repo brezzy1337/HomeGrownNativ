@@ -5,6 +5,7 @@ import { BsCreditCard } from 'react-icons/bs';
 import { GrPaypal } from 'react-icons/gr';
 import { AiOutlineDollar } from 'react-icons/ai';
 import { SiBitcoin } from 'react-icons/si';
+import VaultPaypal from '../Payment/BrainTree/VaultPaypal';
 
 const AddPayment: React.FC = () => {
 
@@ -87,8 +88,9 @@ const AddPayment: React.FC = () => {
                     </div>
                 </div>
             </div>
-            {openCardForm && <CardForm/>}
-            {openPaypalForm && <BrainTree/>}
+            {/* paypal and card methods will are vaulted by braintree */}
+            {openCardForm && <VaultCard/>}
+            {openPaypalForm && <VaultPaypal/>}
             {/* {openBitcoinForm && <bitcoinForm/>} */}
     </View>
   )
