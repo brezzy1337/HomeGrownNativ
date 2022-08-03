@@ -4,6 +4,8 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {StackParam} from '../App';
 import AddUser from '../Components/SignUp/AddUser';
+import AddLocation from '../Components/SignUp/AddLocation';
+import AddPayment from '../Components/SignUp/AddPayment';
 
 const SignUpScreen: React.FC = () => {
 
