@@ -7,8 +7,11 @@ import {StackParam} from '../../../App';
 import { GraphQLClient } from 'graphql-request';
 import { NEW_GET_CLIENT_TOKEN } from "./Queries";
 import { VAULT_PAYMENT_MEHTOD } from "./Queries";
-import braintree from 'braintree-web';
-import { View } from 'react-native';
+// import braintree from 'braintree-web';
+import { requestBillingAgreement, requestDeviceData, PaypalResponse } from 'react-native-paypal';
+import { Alert, StyleSheet, View } from 'react-native';
+import { Button } from 'react-native-paper';
+import { Image } from 'react-native';
 
 const VaultPaypal: React.FC = () => {
 
@@ -18,103 +21,49 @@ const VaultPaypal: React.FC = () => {
   
   const [clientToken, setClientToken] = useState<string>('');
   const [customerID, setCustomerId] = useState<string>('');
+  const [token, setToken] = useState<string>('');
+  const [success, setSuccess] = useState<PaypalResponse>({
+    nonce: '',
+    payerId: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    phone: '',
+  });
+    const [
+    billingAgreementDescription,
+    setBillingAgreementDescription,
+  ] = useState('Vault Acccount to Home Grown');
 
 
-  const getToken: Function = async () => {
-    const endpoint = "https://payments.sandbox.braintree-api.com/graphql";
+  // Get Token from server
 
-    const graphQLClient = new GraphQLClient(endpoint, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `YjJndnlxMmJocHZqeTdtNjozMTAxY2QyMzBiNmI4OWYwMjM0MzAwMWU3NGU5MTM5ZQ==`,
-        "Braintree-Version": "2021-05-11",
-      },
-    });
-
-    const variables = {};
-
-    const data = await graphQLClient.request(NEW_GET_CLIENT_TOKEN, variables);
-
-    console.log(JSON.stringify(data, undefined, 2));
-
-    // setClientToken(data.createClientToken.clientToken, undefined, 2);
-    setClientToken(data.createClientToken.clientToken);
-    console.log(clientToken);
-  }
-
-  const getnonce: Function = () => {
+  const VaultPaypal: Function = async () => {
     console.log(clientToken);
     console.log(customerID);
 
-    button.addEventListen('click', function () {
-    button.setAttribute('disabled', 'disabled');
-    })
+    // Use react-native-paypal fields to create a payment method nonce which is passed to be vaulted in this case
+    // See https://docs-prod-us-east-2.production.braintree-api.com/guides/paypal/vault/android/v3 for intergration
+    // @ node_modules\react-native-paypal\android\src\main\java\com\smarkets\paypal\RNPaypalModule.java
+    // Have to update installation intrustions for IOS later
+     const requestBilling = () =>
+    requestBillingAgreement(token, {billingAgreementDescription})
+    // nonce is in the success object
+      .then(setSuccess)
+      .catch((error) => Alert.alert('Paypal Request Failed'));
 
-    // Use hosted fields to create a payment method nonce which is passed to be vaulted in this case
-    braintree.client.create(
-      {
-        authorization: `${clientToken}`,
-      },
-      function (clientErr, clientInstance) {
-        if (clientErr) {
-          console.error("Error creating client:", clientErr);
-          return;
-        }
+    // Send nonce to server to be vaulted with success.nonce
 
-        braintree.paypal.create(
-          {
-            client: clientInstance,
-          },
-          function (paypalErr, paypalInstance) {
-            if (paypalErr) {
-              console.error("Error creating PayPal:", paypalErr);
-              return;
-            }
-
-            paypalButton.removeAttribute("disabled");
-
-            // When the button is clicked, attempt to tokenize.
-            paypalButton.addEventListener(
-              "click",
-              function (event) {
-                // Because tokenization opens a popup, this has to be called as a result of
-                // customer action, like clicking a button. You cannot call this at any time.
-                paypalInstance.tokenize(
-                  {
-                    flow: "vault",
-                    // For more tokenization options, see the full PayPal tokenization documentation
-                    // https://braintree.github.io/braintree-web/current/PayPal.html#tokenize
-                  },
-                  function (tokenizeErr, payload) {
-                    if (tokenizeErr) {
-                      if (tokenizeErr.type !== "CUSTOMER") {
-                        console.error("Error tokenizing:", tokenizeErr);
-                      }
-                      return;
-                    }
-
-                    // Tokenization succeeded
-                    paypalButton.setAttribute("disabled", true);
-                    console.log(
-                      "Got a nonce! You should submit this to your server."
-                    );
-                    console.log(payload.nonce);
-                    vaultPayment(payload.nonce);
-                  }
-                );
-              },
-              false
-            );
-          }
-        );
-      }
-    );
   };
 
 
   return (
     <View>
-
+      <Button>
+        <Image source={{uri: "https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-200px.png"}}
+          style={{width: 'auto', height: 'auto'}}
+        />
+      </Button>
     </View>
   )
 

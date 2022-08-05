@@ -6,6 +6,7 @@ import { GrPaypal } from 'react-icons/gr';
 import { AiOutlineDollar } from 'react-icons/ai';
 import { SiBitcoin } from 'react-icons/si';
 import VaultPaypal from '../Payment/BrainTree/VaultPaypal';
+import VaultCard from '../Payment/BrainTree/VaultCard';
 
 const AddPayment: React.FC = () => {
 

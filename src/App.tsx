@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {QueryClient, QueryClientProvider} from 'react-query';
-import {trpc} from './utils/trpc';
+// import {trpc} from './utils/trpc';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
@@ -23,11 +23,11 @@ export type StackParam = {
 
 const App: React.FC<Props> = ({name}) => {
   const [queryClient] = useState(() => new QueryClient());
-  const [trpcClient] = useState(() =>
-    trpc.createClient({
-      url: 'http://localhost:1337/trpc',
-    }),
-  );
+  // const [trpcClient] = useState(() =>
+  //   trpc.createClient({
+  //     url: 'http://localhost:1337/trpc',
+  //   }),
+  // );
 
   const Stack = createNativeStackNavigator<StackParam>();
 
@@ -55,7 +55,7 @@ const App: React.FC<Props> = ({name}) => {
   };
 
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+    // <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         <AuthContext.Provider value={{authState, setAuthState}}>
           <NavigationContainer>
@@ -118,7 +118,7 @@ const App: React.FC<Props> = ({name}) => {
           </NavigationContainer>
         </AuthContext.Provider>
       </QueryClientProvider>
-    </trpc.Provider>
+    // </trpc.Provider>
   );
 };
 
