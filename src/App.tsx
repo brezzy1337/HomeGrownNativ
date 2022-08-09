@@ -4,12 +4,15 @@ import {QueryClient, QueryClientProvider} from 'react-query';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {AuthContext} from './Context/AuthContext';
 import HeroScreen from './Screens/HeroScreen';
 import LogInScreen from './Screens/LogInScreen';
 import SignUpScreen from './Screens/SignUpScreen';
 import HomeScreen from './Screens/HomeScreen';
+import StoreScreen from './Screens/StoreScreen';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 export type Props = {
   name: string;
 };
@@ -20,6 +23,10 @@ export type StackParam = {
   SignUp: undefined;
   Home: undefined;
 };
+
+// interface navBarInterface {
+//   name: string | undefined
+// }
 
 const App: React.FC<Props> = ({name}) => {
   const [queryClient] = useState(() => new QueryClient());
@@ -32,6 +39,8 @@ const App: React.FC<Props> = ({name}) => {
   const Stack = createNativeStackNavigator<StackParam>();
 
   const [authState, setAuthState] = React.useState<boolean>(false);
+
+  const Tab = createMaterialBottomTabNavigator();
   // const [backArrow, setBackArrow] = React.useState(false);
 
   // const backArrowIcon = Icon.getImageSource('chevron-back-outline', 20, 'red').then(source =>
@@ -104,13 +113,33 @@ const App: React.FC<Props> = ({name}) => {
                 )}
                 {authState && (
                   <>
-                    <Stack.Screen
-                      name="Home"
-                      component={HomeScreen}
-                      options={{
-                        headerShown: false,
-                      }}
-                    />
+                    <Tab.Navigator
+                      screenOptions={({ route }) => ({
+                        tabBarIcon: ({ focused, color}) => {
+                          let iconName = 'Home';
+
+                          if (route.name === 'Home') {
+                            iconName = focused
+                              ? 'ios-home'
+                              : 'ios-home-outline';
+                          } 
+                          else if (route.name === 'Store') {
+                            iconName = focused
+                              ? 'ios-cart'
+                              : 'ios-cart-outline';
+                          }
+
+                          return <Ionicons name={iconName} color={color}/>;
+                        },
+                        tabBarActiveTintColor: '#92a54a',
+                        tabBarInactiveTintColor: 'gray',
+                      })}
+                    >
+                      <Tab.Screen name='Home' component={HomeScreen}/>
+                      <Tab.Screen name='Store' component={StoreScreen}/>
+                      {/* <Tab.Screen name='Search' component={SearchScreen}/>
+                      <Tab.Screen name='Profile' component={ProfileScreen}/> */}
+                    </Tab.Navigator>
                   </>
                 )}
               </Stack.Navigator>

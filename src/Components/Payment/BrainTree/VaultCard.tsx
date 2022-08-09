@@ -5,7 +5,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {StackParam} from '../../../App';
 
 
-
+//use hosted field to vault card to braintree
 const VaultCard: React.FC = () => {
   return (
     <div>VaultCard</div>
