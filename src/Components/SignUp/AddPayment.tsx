@@ -1,98 +1,80 @@
-import React, { useState } from 'react'
-import { View } from 'react-native'
-import { IconContext } from "react-icons";
-import { BsCreditCard } from 'react-icons/bs';
-import { GrPaypal } from 'react-icons/gr';
-import { AiOutlineDollar } from 'react-icons/ai';
-import { SiBitcoin } from 'react-icons/si';
+import React, { PropsWithChildren, ReactNode, useState } from 'react'
+import { StyleSheet, View } from 'react-native'
 import VaultPaypal from '../Payment/BrainTree/VaultPaypal';
 import VaultCard from '../Payment/BrainTree/VaultCard';
+import CashButton from '../Payment/CashButton';
+import { Button } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
-const AddPayment: React.FC = () => {
+type Props = {
+    children?: JSX.Element|JSX.Element[]|ReactNode|ReactNode[]
+}
 
-    const [paymentType, setPaymentType] = useState<string>('');
-    const [openCardForm, setOpenCardForm] = useState<boolean>(false);   
-    const [openPaypalForm, setOpenPaypalForm] = useState<boolean>(false);
-    const [openCryptoForm, setOpenCryptoForm] = useState<boolean>(false);
-    const [openCashForm, setOpenCashForm] = useState<boolean>(false);
+const AddPayment: React.FC = (props:PropsWithChildren<Props>) => {
 
-    let togglepaymenttype = () => {
-        if (paymentType === "card") {
-            setOpenCardForm(true);   
-            setOpenPaypalForm(false);
-            setOpenCryptoForm(false);
-            setOpenCashForm(false);
+    // const cardRef = React.useRef<any>(null);
+    // const paypalRef = React.useRef<any>(null);
+    // const cryptoRef = React.useRef<any>(null);
+    // const cashRef = React.useRef<any>(null);
+
+    const [openCardForm, setOpenCardForm] = useState(false);
+    const [openPaypalForm, setOpenPaypalForm] = useState(false);
+    const [openCryptoForm, setOpenCryptoForm] = useState(false);
+    const [openCashForm, setOpenCashForm] = useState(false);
+
+    const styles = StyleSheet.create({
+        buttonLeft: {
+            flex: .25, height: '25%', borderStyle: 'solid', borderWidth: 1, borderRadius: 12, marginRight: '5%', justifyContent: 'center'
+        },
+        buttonRight: {
+            flex: .25, height: '25%', borderStyle: 'solid', borderWidth: 1, borderRadius: 12, marginLeft: '5%', justifyContent: 'center'
+        },
+        touched: {
+            borderColor: 'black'
+        },
+        inactive: {
+            borderColor: '#92A54A'
         }
-        if (paymentType === "paypal") {
-            setOpenPaypalForm(true);
-            setOpenCardForm(false);   
-            setOpenCryptoForm(false);
-            setOpenCashForm(false);
+    })
 
-        }
-        if (paymentType === "cash") {
-            setOpenCashForm(true);
-            setOpenCardForm(false);
-            setOpenPaypalForm(false);
-            setOpenCryptoForm(false);
-        }
-        if (paymentType === "bitcoin") {
-            setOpenCryptoForm(true);
-            setOpenCardForm(false);
-            setOpenPaypalForm(false);
-            setOpenCashForm(false);
-
-        }
-    };
 
   return (
-    <View>
-         <div className="paymentTypesContainer">
-                <div className="paymentTypeContainer">
-                    <div className={`paymentTypeCard ${openCardForm ? 'is-toggled': ''}`}>
-                        <IconContext.Provider value={{ color: "Black", className: "HomeIcon", size: "2.5em",  }}>
-                            <BsCreditCard onClick={() => {
-                                setPaymentType("card");
-                                togglepaymenttype();
-                            }}/>
-                        </IconContext.Provider> 
-                    </div>
-                </div>
-                <div className="paymentTypeContainer">
-                    <div className={`paymentTypePaypal ${openPaypalForm ? 'is-toggled': ''}`}>
-                        <IconContext.Provider value={{ color: "Black", className: "HomeIcon", size: "2.5em",  }}>
-                        <GrPaypal onClick={() =>{
-                            setPaymentType("paypal");
-                            togglepaymenttype();
-                        }}/>
-                        </IconContext.Provider> 
-                    </div>
-                </div>
-                <div className="paymentTypeContainer">
-                    <div className={`paymentTypeCash ${openCashForm ? 'is-toggled': ''}`}>
-                        <IconContext.Provider value={{ color: "Black", className: "HomeIcon", size: "2.5em",  }}>
-                            <AiOutlineDollar onClick={() => {
-                                setPaymentType("cash");
-                                togglepaymenttype();
-                        }}/>
-                        </IconContext.Provider> 
-                    </div>
-                </div>
-                <div className="paymentTypeContainer">
-                    <div className={`paymentTypeBitcoin ${openCryptoForm? 'is-toggled': ''}`}>
-                        <IconContext.Provider value={{ color: "Black", className: "HomeIcon", size: "2.5em",  }}>
-                            <SiBitcoin  onClick={() => {
-                                setPaymentType("bitcoin");
-                                togglepaymenttype();
-                        }}/>
-                        </IconContext.Provider> 
-                    </div>
-                </div>
-            </div>
-            {/* paypal and card methods will are vaulted by braintree */}
-            {openCardForm && <VaultCard/>}
-            {openPaypalForm && <VaultPaypal/>}
-            {/* {openBitcoinForm && <bitcoinForm/>} */}
+    <View style={{height: '100%', backgroundColor: 'white'}}>
+        <View style={{flex: .25, height: '20%', width:'80%', alignSelf: 'center', marginTop: '15%'}}>
+            <View style={{flexDirection: 'row', height: '160%', alignSelf: 'center'}}>
+                <Button 
+                style={[ styles.buttonLeft, openCardForm === true ? styles.inactive : styles.touched]}
+                onPress={() => {setOpenCardForm(true); setOpenCryptoForm(false); setOpenCashForm(false); setOpenPaypalForm(false);}}
+                
+                >
+                    <Icon name='credit-card' size={34} color={ openCardForm === true ? '#92A54A' : 'black'} style={{ alignSelf: 'center'}}/>
+                </Button>
+                <Button  
+                style={[ styles.buttonRight, openCryptoForm === true ? styles.inactive : styles.touched]}
+                onPress={() => {setOpenCryptoForm(true); setOpenCashForm(false); setOpenPaypalForm(false); setOpenCardForm(false);}}
+                >
+                    <Icon name='bitcoin' size={34} color={ openCryptoForm === true ? '#92A54A' : 'black'} style={{ alignSelf: 'center'}}/>
+                </Button> 
+            </View>
+            <View style={{flexDirection: 'row', height: '160%', alignSelf: 'center' , marginTop: '-55%'}}>
+                <Button 
+                style={[ styles.buttonLeft, openPaypalForm === true ? styles.inactive : styles.touched]}
+                onPress={() => {setOpenPaypalForm(true); setOpenCardForm(false); setOpenCashForm(false); setOpenCryptoForm(false);}}
+                >
+                    <Icon name='paypal' size={34} color={openPaypalForm === true ? '#92A54A' : 'black'} style={{ alignSelf: 'center'}}/>
+                </Button>
+                <Button 
+                style={[ styles.buttonRight, openCashForm === true ? styles.inactive : styles.touched]}
+                onPress={() => {setOpenCashForm(true); setOpenCardForm(false); setOpenCryptoForm(false); setOpenPaypalForm(false);}}
+                >
+                    <Icon name='dollar-sign' size={34} color={openCashForm === true ? '#92A54A' : 'black' } style={{ alignSelf: 'center'}}/>
+                </Button>
+            </View>
+        </View>
+        {openCardForm === true && <VaultCard/>}
+        {openPaypalForm === true && <VaultPaypal/>}
+        {openCashForm === true && <CashButton/>}
+        {openCryptoForm === true && null}
     </View>
   )
 }
