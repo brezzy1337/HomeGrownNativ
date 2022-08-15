@@ -4,7 +4,7 @@ import {QueryClient, QueryClientProvider} from 'react-query';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {AuthContext} from './Context/AuthContext';
 import HeroScreen from './Screens/HeroScreen';
@@ -13,6 +13,7 @@ import SignUpScreen from './Screens/SignUpScreen';
 import HomeScreen from './Screens/HomeScreen';
 import StoreScreen from './Screens/StoreScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {KeyboardAvoidingView} from 'react-native';
 export type Props = {
   name: string;
 };
@@ -65,8 +66,8 @@ const App: React.FC<Props> = ({name}) => {
 
   return (
     // <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
-        <AuthContext.Provider value={{authState, setAuthState}}>
+    <QueryClientProvider client={queryClient}>
+      <AuthContext.Provider value={{authState, setAuthState}}>
           <NavigationContainer>
             <PaperProvider theme={theme}>
               <Stack.Navigator>
@@ -95,7 +96,7 @@ const App: React.FC<Props> = ({name}) => {
                       }}
                     />
                     <Stack.Screen
-                      name="LogIn"
+                      name="SignUp"
                       component={SignUpScreen}
                       options={{
                         title: 'Sign Up',
@@ -114,29 +115,28 @@ const App: React.FC<Props> = ({name}) => {
                 {authState && (
                   <>
                     <Tab.Navigator
-                      screenOptions={({ route }) => ({
-                        tabBarIcon: ({ focused, color}) => {
+                      screenOptions={({route}) => ({
+                        tabBarHideOnKeyboard: true,
+                        tabBarIcon: ({focused, color}) => {
                           let iconName = 'Home';
 
                           if (route.name === 'Home') {
                             iconName = focused
                               ? 'ios-home'
                               : 'ios-home-outline';
-                          } 
-                          else if (route.name === 'Store') {
+                          } else if (route.name === 'Store') {
                             iconName = focused
                               ? 'ios-cart'
                               : 'ios-cart-outline';
                           }
 
-                          return <Ionicons name={iconName} color={color}/>;
+                          return <Ionicons name={iconName} color={color} />;
                         },
                         tabBarActiveTintColor: '#92a54a',
-                        tabBarInactiveTintColor: 'gray',
-                      })}
-                    >
-                      <Tab.Screen name='Home' component={HomeScreen}/>
-                      <Tab.Screen name='Store' component={StoreScreen}/>
+                        tabBarInactiveTintColor: 'gray', 
+                      })}>
+                      <Tab.Screen name="Home" component={HomeScreen} />
+                      <Tab.Screen name="Store" component={StoreScreen} />
                       {/* <Tab.Screen name='Search' component={SearchScreen}/>
                       <Tab.Screen name='Profile' component={ProfileScreen}/> */}
                     </Tab.Navigator>
@@ -145,8 +145,8 @@ const App: React.FC<Props> = ({name}) => {
               </Stack.Navigator>
             </PaperProvider>
           </NavigationContainer>
-        </AuthContext.Provider>
-      </QueryClientProvider>
+      </AuthContext.Provider>
+    </QueryClientProvider>
     // </trpc.Provider>
   );
 };

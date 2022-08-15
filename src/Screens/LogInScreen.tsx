@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, { useContext, useEffect} from 'react'
 import axios from 'axios';
 import { AuthContext } from '../Context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
@@ -6,7 +6,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParam } from '../App';
 import { View, StyleSheet, Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Divider, TextInput, Button, Text } from 'react-native-paper';
+import { Divider, TextInput, Button, Text, Portal } from 'react-native-paper';
+import { RenderProps } from 'react-native-paper/lib/typescript/components/TextInput/types';
 
 
 
@@ -17,6 +18,14 @@ const LogInScreen: React.FC = () => {
   const [login, setLogin] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const {setAuthState} = useContext(AuthContext);
+  
+  const loginInputRef = React.useRef<any>(null);
+  const passwordInputRef = React.useRef<any>(null);
+  // const [inputFocus, setInputFocus] = React.useState<string>('login_input')
+
+  useEffect(() => {
+      loginInputRef.current.focus();
+  }, [])
 
   const logIn = async () => {
     const data = { username: login, password: password };
@@ -44,7 +53,8 @@ const LogInScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <View style={{width: '80%'}}>
+      <View style={{width: '80%', height: '100%'}}>
+        {/* automatically select/focus Text */}
         <TextInput
           mode='outlined'
           underlineColor='#92a54a'
@@ -52,22 +62,24 @@ const LogInScreen: React.FC = () => {
           label="Username or Email"
           value={login}
           onChangeText={login => setLogin(login)}
+          ref={loginInputRef}
+          onSubmitEditing={() => (passwordInputRef.current.focus())}
           />
         <TextInput
           mode='outlined'
           outlineColor='lightgrey'
           label="Password"
           value={password}
+          ref={passwordInputRef}
           onChangeText={password => setPassword(password)}
         />
-        <Button 
-          style={{marginTop: 20}}
-          mode='contained'
-          onPress={logIn}>
-            <Text style={{color: 'white'}}>Log in</Text>
-        </Button>      
+          <Button 
+            style={{ marginTop: 20, position: 'absolute', bottom: '5%', width: '100%', alignSelf: 'center' }}
+            mode='contained'
+            onPress={logIn}>
+              <Text style={{color: 'white'}}>Log in</Text>
+          </Button>      
       </View>
-        <Divider style={{marginTop: 30, padding:.5, width: '90%'}}/>
     </View>
   )
 }

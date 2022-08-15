@@ -5,8 +5,8 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {StackParam} from '../../App';
 import {useFormik} from 'formik';
-import {View} from 'react-native';
-import {Button, Text, TextInput} from 'react-native-paper';
+import {StyleSheet, View} from 'react-native';
+import {Button, Text, TextInput, Headline} from 'react-native-paper';
 
 const AddUser: React.FC = () => {
   
@@ -27,50 +27,73 @@ const AddUser: React.FC = () => {
       password: '',
     },
     onSubmit: (values: Values) => {
-      onSubmit: values;
+      console.log(values);
+      setSignUpState('addLocation')
     },
   });
 
-  const onSubmit = async (values: Values) => {
+  const usernameInputRef = React.useRef<any>(null);
+  const passwordInputRef = React.useRef<any>(null);
+  const testRef = React.useRef<any>(null);
 
-    setSignUpState('addLocation');
-  };
+  React.useEffect(() => {
+    console.log(usernameInputRef);
+    console.log(usernameInputRef.current.isFocused())
+    console.log(passwordInputRef);
+  }, [usernameInputRef])
+  
+  
 
   return (
-    <View>
-      <Text style={{fontSize: 36}}>Join Home Grown</Text>
-      <ul>
-        <li>
-          <Text>
+    <View style={{ paddingTop: '8%', height: '100%', backgroundColor: 'white' }}>
+      <Headline style={{ fontSize: 26, alignSelf: 'flex-start', paddingLeft: '8%', textDecorationLine: 'underline' }}>Join Home Grown</Headline>
+
+          <Text style={{ fontSize: 18, alignSelf: 'center', paddingTop: '8%', paddingLeft: '8%', paddingRight: '8%' }}>
             Expand your local foods community by buying and selling produce,
             grown right down your street.
           </Text>
-        </li>
-        <li>
-          <Text>
+          {/* <Text style={{ fontSize: 18, alignSelf: 'flex-start', paddingTop: '5%', paddingLeft: '10%', paddingRight: '8%' }}>
             Let your property become a source of income and substainbility.
-          </Text>
-        </li>
-      </ul>
+          </Text> */}
+
       <TextInput
+        mode='outlined'
+        underlineColor='#92a54a'
+        outlineColor='lightgrey'
+        style={{ marginTop: '4%', marginLeft: '8%', marginRight: '10%' }}
         label="Email"
         value={formik.values.email}
-        onChange={formik.handleChange}
+        onChangeText={formik.handleChange('email')}
+        onSubmitEditing={() => (usernameInputRef.current.focus())}
         error={formik.touched.email && Boolean(formik.errors.email)}
       />
       <TextInput
-        label="username"
+        mode='outlined'
+        underlineColor='#92a54a'
+        outlineColor='lightgrey'
+        style={{ marginTop: '2%', marginLeft: '8%', marginRight: '10%' }}
+        label="Username"
         value={formik.values.username}
-        onChange={formik.handleChange}
+        ref={usernameInputRef}
+        onChangeText={formik.handleChange('username')}
+        onSubmitEditing={() => (passwordInputRef.current.focus())}
         error={formik.touched.username && Boolean(formik.errors.username)}
       />
       <TextInput
-        label="password"
+        mode='outlined'
+        underlineColor='#92a54a'
+        outlineColor='lightgrey'
+        style={{ marginTop: '2%', marginLeft: '8%', marginRight: '10%' }}
+        label="Password"
         value={formik.values.password}
-        onChange={formik.handleChange}
+        ref={passwordInputRef}
+        onChangeText={formik.handleChange('password')}
         error={formik.touched.password && Boolean(formik.errors.password)}
       />
-      <Button style={{marginTop: 20}} mode="contained" onPress={formik.handleSubmit}>
+      <Text style={{ paddingTop: '6%', paddingLeft: '8%', paddingRight: '8%'}}>
+        By clicking below and creating an account, I agree to HomeGrown's Terms of Service and Privacy Policy.
+      </Text>
+      <Button style={{flex: 1, marginTop: 20, position: 'absolute', bottom: '5%', alignSelf: 'center', width: '80%'}} mode="contained" onPress={formik.handleSubmit}>
         <Text style={{color: 'white'}}>Next</Text>
     </Button>
     </View>

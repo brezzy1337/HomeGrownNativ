@@ -10,7 +10,8 @@ import { VAULT_PAYMENT_MEHTOD } from "./Queries";
 // import braintree from 'braintree-web';
 import { requestBillingAgreement, requestDeviceData, PaypalResponse } from 'react-native-paypal';
 import { Alert, StyleSheet, View } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Image } from 'react-native';
 
 const VaultPaypal: React.FC = () => {
@@ -58,13 +59,21 @@ const VaultPaypal: React.FC = () => {
 
 
   return (
-    <View>
-      <Button>
+      <Button
+        style={{
+          flex:1,
+          position: 'absolute',
+          bottom: '5%',
+          alignSelf: 'center',
+          width: '80%',
+          backgroundColor: 'white'
+        }}
+        mode='contained'
+      >
         <Image source={{uri: "https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-200px.png"}}
-          style={{width: 'auto', height: 'auto'}}
+          style={{resizeMode: 'contain', width: 150, height: 25}}
         />
       </Button>
-    </View>
   )
 
 }
