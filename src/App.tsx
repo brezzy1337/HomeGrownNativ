@@ -4,15 +4,12 @@ import {QueryClient, QueryClientProvider} from 'react-query';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {AuthContext} from './Context/AuthContext';
 import HeroScreen from './Screens/HeroScreen';
 import LogInScreen from './Screens/LogInScreen';
 import SignUpScreen from './Screens/SignUpScreen';
-import HomeScreen from './Screens/HomeScreen';
-import StoreScreen from './Screens/StoreScreen';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import AppScreen from './Screens/App/AppScreen';
 import {KeyboardAvoidingView} from 'react-native';
 export type Props = {
   name: string;
@@ -23,6 +20,7 @@ export type StackParam = {
   LogIn: undefined;
   SignUp: undefined;
   Home: undefined;
+  App: undefined;
 };
 
 // interface navBarInterface {
@@ -41,7 +39,6 @@ const App: React.FC<Props> = ({name}) => {
 
   const [authState, setAuthState] = React.useState<boolean>(false);
 
-  const Tab = createMaterialBottomTabNavigator();
   // const [backArrow, setBackArrow] = React.useState(false);
 
   // const backArrowIcon = Icon.getImageSource('chevron-back-outline', 20, 'red').then(source =>
@@ -68,83 +65,63 @@ const App: React.FC<Props> = ({name}) => {
     // <trpc.Provider client={trpcClient} queryClient={queryClient}>
     <QueryClientProvider client={queryClient}>
       <AuthContext.Provider value={{authState, setAuthState}}>
-          <NavigationContainer>
-            <PaperProvider theme={theme}>
-              <Stack.Navigator>
-                {!authState && (
-                  <>
-                    <Stack.Screen
-                      name="Hero"
-                      component={HeroScreen}
-                      options={{
-                        headerShown: false,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="LogIn"
-                      component={LogInScreen}
-                      options={{
-                        title: 'Log In',
-                        headerStyle: {
-                          backgroundColor: '#ffffff',
-                        },
-                        headerTitleStyle: {
-                          color: '#92a54a',
-                        },
-                        headerTitleAlign: 'center',
-                        // headerBackImageSource​: backArrow
-                      }}
-                    />
-                    <Stack.Screen
-                      name="SignUp"
-                      component={SignUpScreen}
-                      options={{
-                        title: 'Sign Up',
-                        headerStyle: {
-                          backgroundColor: '#ffffff',
-                        },
-                        headerTitleStyle: {
-                          color: '#92a54a',
-                        },
-                        headerTitleAlign: 'center',
-                        // headerBackImageSource​: backArrow
-                      }}
-                    />
-                  </>
-                )}
-                {authState && (
-                  <>
-                    <Tab.Navigator
-                      screenOptions={({route}) => ({
-                        tabBarHideOnKeyboard: true,
-                        tabBarIcon: ({focused, color}) => {
-                          let iconName = 'Home';
-
-                          if (route.name === 'Home') {
-                            iconName = focused
-                              ? 'ios-home'
-                              : 'ios-home-outline';
-                          } else if (route.name === 'Store') {
-                            iconName = focused
-                              ? 'ios-cart'
-                              : 'ios-cart-outline';
-                          }
-
-                          return <Ionicons name={iconName} color={color} />;
-                        },
-                        tabBarActiveTintColor: '#92a54a',
-                        tabBarInactiveTintColor: 'gray', 
-                      })}>
-                      <Tab.Screen name="Home" component={HomeScreen} />
-                      <Tab.Screen name="Store" component={StoreScreen} />
-                      {/* <Tab.Screen name='Search' component={SearchScreen}/>
-                      <Tab.Screen name='Profile' component={ProfileScreen}/> */}
-                    </Tab.Navigator>
-                  </>
-                )}
-              </Stack.Navigator>
-            </PaperProvider>
-          </NavigationContainer>
+        <NavigationContainer>
+          <PaperProvider theme={theme}>
+            <Stack.Navigator>
+              {!authState && (
+                <>
+                  <Stack.Screen
+                    name="Hero"
+                    component={HeroScreen}
+                    options={{
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="LogIn"
+                    component={LogInScreen}
+                    options={{
+                      title: 'Log In',
+                      headerStyle: {
+                        backgroundColor: '#ffffff',
+                      },
+                      headerTitleStyle: {
+                        color: '#92a54a',
+                      },
+                      headerTitleAlign: 'center',
+                      // headerBackImageSource​: backArrow
+                    }}
+                  />
+                  <Stack.Screen
+                    name="SignUp"
+                    component={SignUpScreen}
+                    options={{
+                      title: 'Sign Up',
+                      headerStyle: {
+                        backgroundColor: '#ffffff',
+                      },
+                      headerTitleStyle: {
+                        color: '#92a54a',
+                      },
+                      headerTitleAlign: 'center',
+                      // headerBackImageSource​: backArrow
+                    }}
+                  />
+                </>
+              )}
+              {authState && (
+                <>
+                  <Stack.Screen
+                    name="App"
+                    component={AppScreen}
+                    options={{
+                      headerShown: false,
+                    }}/>
+                </>
+              )}
+            </Stack.Navigator>
+          </PaperProvider>
+        </NavigationContainer>
       </AuthContext.Provider>
     </QueryClientProvider>
     // </trpc.Provider>

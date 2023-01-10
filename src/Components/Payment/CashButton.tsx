@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button, Text } from 'react-native-paper'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { StackParam } from '../../App' 
 import { AuthContext } from '../../Context/AuthContext'
 
 const CashButton: React.FC = () => {
 
-    
+  const navigation = useNavigation<NativeStackNavigationProp<StackParam>>();
+  const {setAuthState} = useContext(AuthContext);
+
 
   return (
     <Button
@@ -17,6 +22,10 @@ const CashButton: React.FC = () => {
           width: '80%',
         }}
         mode="contained"
+        onPress={() => {
+          setAuthState(true);
+          navigation.navigate("App");
+        }}
     >
         <Text style={{color: 'white'}}>Next</Text>
     </Button>
