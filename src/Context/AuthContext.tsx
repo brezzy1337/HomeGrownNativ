@@ -1,8 +1,8 @@
-import React, { createContext } from 'react';
+import React, { createContext, Dispatch, SetStateAction } from 'react';
 
 const initialState = { 
     authState: false,
-    setAuthState: React.Dispatch<React.SetStateAction<boolean>>
+    setAuthState: {} as Dispatch<SetStateAction<boolean>>
 };
 
 export type AuthState = typeof initialState;

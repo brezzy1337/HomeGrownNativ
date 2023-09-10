@@ -1,10 +1,9 @@
-import React, { createContext } from 'react';
+import React, {createContext, Dispatch, SetStateAction} from 'react';
 
-const initialState = { 
+const initialState = {
     signUpState: '',
-    setSignUpState: React.Dispatch<React.SetStateAction<string>>
+    setSignUpState: {} as Dispatch<SetStateAction<string>>
 };
 
 export type SignUpState = typeof initialState;
-
 export const SignUpContext = createContext<typeof initialState>(initialState);

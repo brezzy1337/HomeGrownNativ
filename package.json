@@ -20,15 +20,17 @@
     "braintree-web": "^3.85.5",
     "braintree-web-drop-in": "^1.33.3",
     "formik": "^2.2.9",
-    "npm": "^8.15.1",
     "react": "^18.0.0",
     "react-icons": "^4.4.0",
     "react-native": "^0.69.3",
+    "react-native-gradle-plugin": "^0.71.19",
     "react-native-paper": "^4.12.3",
     "react-native-paypal": "^4.1.0",
     "react-native-safe-area-context": "^4.3.1",
     "react-native-screens": "^3.23.0",
     "react-native-svg": "^12.4.3",
+    "react-native-svg-transformer": "^1.1.0",
+    "react-native-vector-icons": "^10.0.0",
     "react-native-view-overflow": "^0.0.5",
     "react-query": "^3.39.2"
   },
@@ -54,16 +56,16 @@
     "metro": "^0.72.0",
     "metro-core": "^0.72.0",
     "metro-react-native-babel-preset": "^0.70.3",
+    "npm": "^10.1.0",
     "react-devtools-core": "4.14",
     "react-native-cli": "^2.0.1",
-    "react-native-gradle-plugin": "^0.70.1",
-    "react-native-svg-transformer": "^1.0.0",
-    "react-native-vector-icons": "^9.2.0",
     "react-test-renderer": "18.0.0",
     "typescript": "^4.7.4"
   },
   "jest": {
     "preset": "react-native"
   },
-  "overrides": {}
+  "overrides": {
+    "react": "^17.0.2"
+  }
 }

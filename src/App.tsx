@@ -10,7 +10,6 @@ import HeroScreen from './Screens/HeroScreen';
 import LogInScreen from './Screens/LogInScreen';
 import SignUpScreen from './Screens/SignUpScreen';
 import AppScreen from './Screens/App/AppScreen';
-import {KeyboardAvoidingView} from 'react-native';
 export type Props = {
   name: string;
 };
